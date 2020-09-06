@@ -5,8 +5,9 @@ import { baseUrl } from '../shared/baseUrl';
 import { postFavorite, postComment } from '../redux/ActionCreators';
 import { Rating } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
-import { Text, View, ScrollView, FlatList, Modal, StyleSheet, Button, Alert, PanResponder, TextInput } from 'react-native';
 import Swipeout from 'react-native-swipeout';
+import { Text, View, ScrollView, FlatList, Modal, StyleSheet, Button, Alert, PanResponder, TextInput, Share } from 'react-native';
+
 
 const mapStateToProps = state => {
     return {
@@ -79,7 +80,7 @@ class RenderDish extends Component {
     render() {
         const dish = this.props.dish;
 
-        handleViewRef = ref => this.view = ref;
+        const handleViewRef = ref => this.view = ref;
 
         const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
             if (dx < -200)
@@ -118,11 +119,22 @@ class RenderDish extends Component {
                 else if (recognizeComment(gestureState))
                     this.showModal()
 
-                    
+
 
                 else return true;
             }
         })
+
+        const shareDish = (title, message, url) => {
+            Share.share({
+                title: title,
+                message: title + ': ' + message + ' ' + url,
+                url: url
+            }, {
+                    dialogTitle: 'Share ' + title
+                })
+        }
+
 
         if (dish != null) {
 
@@ -145,6 +157,7 @@ class RenderDish extends Component {
                                 color='#f50'
                                 onPress={() => this.props.favorite ? console.log('Already favorite') : this.props.onPress()}
                             />
+
                             <Icon
                                 raised
                                 reverse
@@ -153,6 +166,17 @@ class RenderDish extends Component {
                                 color="#512DA8"
                                 onPress={() => this.showModal()}
                             />
+
+                            <Icon
+                                raised
+                                reverse
+                                name='share'
+                                type='font-awesome'
+                                color='#51D2A8'
+                                style={styles.cardItem}
+                                onPress={() => shareDish(dish.name, dish.description, baseUrl + dish.image)}
+                            />
+
 
                             <Modal animationType={"slide"} transparent={false}
                                 visible={this.state.isModalOpen}
