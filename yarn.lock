@@ -2460,6 +2460,11 @@ expo-permissions@~9.0.1:
   resolved "https://registry.npm.taobao.org/expo-permissions/download/expo-permissions-9.0.1.tgz#dc10b58654bbe39bbbed5827369942b01b08055e"
   integrity sha1-3BC1hlS745u77VgnNplCsBsIBV4=
 
+expo-secure-store@~9.0.1:
+  version "9.0.1"
+  resolved "https://registry.npm.taobao.org/expo-secure-store/download/expo-secure-store-9.0.1.tgz#e564a2d5392cd1ab883b9b6a7e261c1815d15788"
+  integrity sha1-5WSi1Tks0auIO5tqfiYcGBXRV4g=
+
 expo-splash-screen@^0.5.0:
   version "0.5.0"
   resolved "https://registry.npm.taobao.org/expo-splash-screen/download/expo-splash-screen-0.5.0.tgz#cad0eb77a3eade2c7101d169b8655e7ee8053c2f"

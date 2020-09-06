@@ -6,7 +6,7 @@ import { postFavorite, postComment } from '../redux/ActionCreators';
 import { Rating } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
 import { Text, View, ScrollView, FlatList, Modal, StyleSheet, Button, Alert, PanResponder, TextInput } from 'react-native';
-
+import Swipeout from 'react-native-swipeout';
 
 const mapStateToProps = state => {
     return {
@@ -76,7 +76,6 @@ class RenderDish extends Component {
     }
 
 
-
     render() {
         const dish = this.props.dish;
 
@@ -88,15 +87,20 @@ class RenderDish extends Component {
             else
                 return false;
         }
+        const recognizeComment = ({ moveX, moveY, dx, dy }) => {
+            if (dx > -200)
+                return true;
+            else
+                return false;
+        }
+
 
         const panResponder = PanResponder.create({
             onStartShouldSetPanResponder: (e, gestureState) => {
                 return true;
             },
-            onPanResponderGrant: () => {this.view.rubberBand(1000).then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));},
-            
             onPanResponderEnd: (e, gestureState) => {
-                console.log("pan responder end", gestureState);
+
                 if (recognizeDrag(gestureState))
                     Alert.alert(
                         'Add Favorite',
@@ -108,14 +112,23 @@ class RenderDish extends Component {
                         { cancelable: false }
                     );
 
-                return true;
+
+
+
+                else if (recognizeComment(gestureState))
+                    this.showModal()
+
+                    
+
+                else return true;
             }
         })
 
         if (dish != null) {
+
             return (
+
                 <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
-                    ref={this.handleViewRef}
                     {...panResponder.panHandlers}>
                     <Card
                         featuredTitle={dish.name}
@@ -205,6 +218,7 @@ class RenderDish extends Component {
 
                     </Card>
                 </Animatable.View>
+
             );
         }
         else {
