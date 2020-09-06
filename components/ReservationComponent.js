@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Card } from 'react-native-elements';
-import DatePicker from 'react-native-datepicker'
+
 import { Text, View, StyleSheet, Picker, Switch, Button, ScrollView, Alert } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import * as Permissions from 'expo-permissions';
+import { Notifications } from 'expo';
 
+import DatePicker from 'react-native-datepicker'
 
 class Reservation extends Component {
 
@@ -24,7 +27,7 @@ class Reservation extends Component {
 
 
     resetForm = () => {
-        
+
         this.setState({
             guests: 1,
             smoking: false,
@@ -37,18 +40,53 @@ class Reservation extends Component {
     renderAlert = () => {
         Alert.alert(
             "Your Reservation OK?",
-            "Number of Guests: "+ this.state.guests + '\n Smoking?: ' + this.state.smoking + '\n Date and Time : ' + this.state.date ,
-            
+            "Number of Guests: " + this.state.guests + '\n Smoking?: ' + this.state.smoking + '\n Date and Time : ' + this.state.date,
+
             [
                 {
                     text: "Cancel",
                     onPress: () => this.resetForm(),
                     style: "cancel"
                 },
-                { text: "OK", onPress: () => this.resetForm() }
+                {
+                    text: "OK",
+                    onPress: () => {
+                        this.presentLocalNotification(this.state.date);
+                        this.resetForm();
+
+                    },
+
+                }
             ],
             { cancelable: false }
         );
+    }
+
+    async obtainNotificationPermission() {
+        let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
+        if (permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
+            if (permission.status !== 'granted') {
+                Alert.alert('Permission not granted to show notifications');
+            }
+        }
+        return permission;
+    }
+
+    async presentLocalNotification(date) {
+        await this.obtainNotificationPermission();
+        Notifications.presentLocalNotificationAsync({
+            title: 'Your Reservation',
+            body: 'Reservation for ' + date + ' requested',
+            ios: {
+                sound: true
+            },
+            android: {
+                sound: true,
+                vibrate: true,
+                color: '#512DA8'
+            }
+        });
     }
 
     render() {
@@ -81,13 +119,14 @@ class Reservation extends Component {
                     </View>
                     <View style={styles.formRow}>
                         <Text style={styles.formLabel}>Date and Time</Text>
+                       
+
                         <DatePicker
-                            style={{ flex: 2, marginRight: 20 }}
+                            style={{ width: 200 }}
                             date={this.state.date}
-                            format=''
-                            mode="datetime"
-                            placeholder="select date and Time"
-                            minDate="2017-01-01"
+                            mode="date"
+                            placeholder="select date"
+                            format="YYYY-MM-DD"
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
                             customStyles={{
@@ -100,7 +139,7 @@ class Reservation extends Component {
                                 dateInput: {
                                     marginLeft: 36
                                 }
-                                // ... You can check the source to find the other keys. 
+                                // ... You can check the source to find the other keys.
                             }}
                             onDateChange={(date) => { this.setState({ date: date }) }}
                         />

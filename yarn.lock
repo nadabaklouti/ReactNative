@@ -4507,7 +4507,7 @@ react-native-appearance@~0.3.3:
     invariant "^2.2.4"
     use-subscription "^1.0.0"
 
-react-native-datepicker@1.7.2:
+react-native-datepicker@^1.7.2:
   version "1.7.2"
   resolved "https://registry.npm.taobao.org/react-native-datepicker/download/react-native-datepicker-1.7.2.tgz#58d0822591a0ac9b32aba082650222a0ee29669d"
   integrity sha1-WNCCJZGgrJsyq6CCZQIioO4pZp0=
