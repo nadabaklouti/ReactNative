@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { createBottomTabNavigator } from 'react-navigation';
 import { baseUrl } from '../shared/baseUrl';
 import { Camera, Asset, ImageManipulator } from 'expo';
-
+//import ImagePicker from 'react-native-image-picker';
 
 class LoginTab extends Component {
 
@@ -43,12 +43,33 @@ class LoginTab extends Component {
                 aspect: [4, 3],
             });
             if (!capturedImage.cancelled) {
-                console.log(capturedImage);
                 this.processImage(capturedImage.uri);
             }
         }
 
     }
+
+
+    
+    getImageFromGallery = async () => {
+        try {
+          let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+          });
+          if (!result.cancelled) {
+            this.setState({ imageUrl: result.uri });
+            this.processImage(result.uri);
+
+          }
+    
+      
+        } catch (E) {
+          console.log(E);
+        }
+      };
 
     processImage = async (imageUri) => {
         let processedImage = await ImageManipulator.manipulate(
@@ -83,6 +104,37 @@ class LoginTab extends Component {
         else
             SecureStore.deleteItemAsync('userinfo')
                 .catch((error) => console.log('Could not delete user info', error));
+
+    }
+
+
+    launchImageLibrary = () => {
+        let options = {
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        };
+        ImagePicker.launchImageLibrary(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+                alert(response.customButton);
+            } else {
+                const source = { uri: response.uri };
+                console.log('response', JSON.stringify(response));
+                this.setState({
+                    filePath: response,
+                    fileData: response.data,
+                    fileUri: response.uri
+                });
+            }
+        });
 
     }
 
@@ -183,6 +235,26 @@ class RegisterTab extends Component {
 
     }
 
+
+    getImageFromGallery = async () => {
+        try {
+          let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+          });
+          if (!result.cancelled) {
+            this.setState({ imageUrl: result.uri });
+          }
+    
+          console.log(result);
+        } catch (E) {
+          console.log(E);
+        }
+      };
+    
+
     static navigationOptions = {
         title: 'Register',
         tabBarIcon: ({ tintColor, focused }) => (
@@ -215,6 +287,12 @@ class RegisterTab extends Component {
                         <Button
                             title="Camera"
                             onPress={this.getImageFromCamera}
+                           
+                        />
+
+                        <Button
+                            title="Gallery"
+                            onPress={this.getImageFromGallery}
                         />
                     </View>
                     <Input

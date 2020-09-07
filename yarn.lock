@@ -1212,6 +1212,11 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
+"@react-native-community/netinfo@^5.9.6":
+  version "5.9.6"
+  resolved "https://registry.npm.taobao.org/@react-native-community/netinfo/download/@react-native-community/netinfo-5.9.6.tgz#fab6cd78fe740f9c674b4a93abd77f6bfb90f655"
+  integrity sha1-+rbNeP50D5xnS0qTq9d/a/uQ9lU=
+
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/@types/color-name/download/@types/color-name-1.1.1.tgz?cache=0&sync_timestamp=1596837589214&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fcolor-name%2Fdownload%2F%40types%2Fcolor-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
@@ -2396,6 +2401,11 @@ expo-asset@~8.1.7:
     md5-file "^3.2.3"
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
+
+expo-calendar@~8.2.2:
+  version "8.2.2"
+  resolved "https://registry.npm.taobao.org/expo-calendar/download/expo-calendar-8.2.2.tgz#2edf6d45941f59a12d2a14447533db40369b0cd7"
+  integrity sha1-Lt9tRZQfWaEtKhREdTPbQDabDNc=
 
 expo-constants@~9.1.1:
   version "9.1.1"
@@ -4569,6 +4579,11 @@ react-native-elements@^1.0.0-beta8:
     prop-types "^15.5.8"
     react-native-ratings "^6.3.0"
     react-native-status-bar-height "^2.2.0"
+
+react-native-image-picker@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.npm.taobao.org/react-native-image-picker/download/react-native-image-picker-2.3.3.tgz#eaacd4a1ed9e9887613be31f0765478ca2f18a51"
+  integrity sha1-6qzUoe2emIdhO+MfB2VHjKLxilE=
 
 react-native-ratings@^6.3.0:
   version "6.5.0"
